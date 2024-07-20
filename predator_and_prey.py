@@ -1,57 +1,52 @@
-
-import time  # to simulate a real time data, time loop
-
-import numpy as np  # np mean, np random
-import pandas as pd  # read csv, df manipulation
-import streamlit as st  # 🎈 data web app development
-from scipy.integrate import odeint
+import streamlit as st
+import numpy as np
+import pandas as pd
 import altair as alt
+from scipy.integrate import odeint
 
-# Lotka-Volterra equations
+# Function for Lotka-Volterra equations
 def deriv(y, t, a, b, c, d):
     R, F = y
     dRdt = a * R - b * R * F
     dFdt = c * R * F - d * F
     return [dRdt, dFdt]
 
-st.set_page_config(
-    page_title="Predator and prey",
-    page_icon="✅",
-    layout="wide",
-)
+# Streamlit sidebar for user input
+st.sidebar.header('Model Parameters')
+a = st.sidebar.slider('Natural growth rate of rabbits (a)', 0.0, 2.0, 1.0)
+b = st.sidebar.slider('Death rate of rabbits due to predation (b)', 0.0, 1.0, 0.1)
+c = st.sidebar.slider('Growth rate of foxes due to predation (c)', 0.0, 1.0, 0.1)
+d = st.sidebar.slider('Natural death rate of foxes (d)', 0.0, 2.0, 1.0)
 
-# dashboard title
-st.title("Lotka-Volterra Dashboard")
-# Parameters
-a = st.slider('Prey Growth Rate', min_value=1, max_value=10, value=5, step=0.1)
-b = st.slider('Prey Death Rate', min_value=1, max_value=10, value=5, step=0.1)
-c = st.slider('Predator Growth Rate', min_value=1, max_value=10, value=5, step=0.1)
-d = st.slider('Predator Death Rate', min_value=1, max_value=10, value=5, step=0.1)
-
-R0 = st.number_input('Initial Prey Number', min_value=1, max_value=10, value=5, step=0.1)
-F0 = st.number_input('Initial Predator Number', min_value=1, max_value=10, value=5, step=0.1)
-
+# Initial conditions
+R0 = st.sidebar.slider('Initial rabbit population (R0)', 1, 100, 10)
+F0 = st.sidebar.slider('Initial fox population (F0)', 1, 100, 5)
 y0 = [R0, F0]
-# Time points where we want the solution
+
+# Time points
 t = np.linspace(0, 50, 500)
 
-# Integrate the equations over the time grid, t.
+# Integrate the equations over the time grid
 solution = odeint(deriv, y0, t, args=(a, b, c, d))
 R, F = solution.T
 
-#
-predator = pd.DataFrame({
-  'x': t,
-  'f(x)': R
-})
+# Create a DataFrame for Altair
+data = pd.DataFrame({
+    'Time': t,
+    'Rabbits': R,
+    'Foxes': F
+}).melt('Time', var_name='Population Type', value_name='Population')
 
-prey = pd.DataFrame({
-  'x': t,
-  'f(x)': R
-})
+# Altair plot
+chart = alt.Chart(data).mark_line().encode(
+    x='Time',
+    y='Population',
+    color='Population Type'
+).properties(
+    title='Rabbits and Foxes Population Dynamics',
+    width=700,
+    height=400
+).interactive()
 
-
-alt.Chart(pd.).mark_line().encode(
-    x='x',
-    y='f(x)'
-)
+# Display the plot in Streamlit
+st.altair_chart(chart)
