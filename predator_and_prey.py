@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import altair as alt
 from scipy.integrate import odeint
-
+## run streamlit run predator_and_prey.py to see dashboard
 # Function for Lotka-Volterra equations
 def deriv(y, t, a, b, c, d):
     R, F = y
