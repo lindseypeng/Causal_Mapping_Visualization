@@ -11,6 +11,29 @@ def deriv(y, t, a, b, c, d):
     dFdt = c * R * F - d * F
     return [dRdt, dFdt]
 
+# Introduction section
+st.title('Lotka-Volterra Equations')
+st.markdown("""
+The **Lotka-Volterra equations**, also known as the predator-prey equations, are a pair of first-order, non-linear, differential equations frequently used to describe the dynamics of biological systems in which two species interact, one as a predator and the other as prey.
+
+The equations are given by: """)
+            
+st.latex(r'''
+\begin{align*}
+\frac{dR}{dt} &= aR - bRF \\
+\frac{dF}{dt} &= cRF - dF
+\end{align*}''')
+
+st.markdown("""
+Where:
+- \( R \) is the number of prey (e.g., rabbits)
+- \( F \) is the number of predators (e.g., foxes)
+- \( a \) is the natural growth rate of prey in the absence of predators
+- \( b \) is the death rate of prey due to predation
+- \( c \) is the growth rate of predators per prey eaten
+- \( d \) is the natural death rate of predators in the absence of prey
+""")
+
 # Streamlit sidebar for user input
 st.sidebar.header('Model Parameters')
 a = st.sidebar.slider('Natural growth rate of rabbits (a)', 0.0, 2.0, 1.0)
