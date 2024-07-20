@@ -3,7 +3,18 @@
 ## VALUES
 We aim to empower individuals to believe they can learn and understand anything deeply. Our goal is to extend beyond academic necessities to encompass ideas that are vital for making informed life decisions.
 
-## First Stage: Building the Backbone
+## Current Status: First Stage - Building the Backbone
+
+### Progress
+![Progress](https://img.shields.io/badge/Stage-Seed%20Stage-brightgreen) ![Progress Bar](https://img.shields.io/badge/Progress-20%25-blue)
+
+We are currently in the initial phase of the project. Our focus is on collecting a list of algorithms and creating their visualizations. This stage involves:
+
+- Identifying key algorithms that are essential for understanding various concepts.
+- Developing visual representations for these algorithms to make learning more intuitive.
+- Establishing the data requirements to translate information into various algorithms.
+- Exploring connections between different algorithms to provide new insights.
+
 
 ### Visualization
 - **Basic Component**: The core element is the visualization of algorithms.
